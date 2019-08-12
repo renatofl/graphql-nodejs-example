@@ -16,12 +16,11 @@ const root = {
   },
 };
 
-
 app.use(
   '/graphql',
   graphqlHTTP({
     schema: schema,
-    root: root,
+    rootValue: root,
     graphiql: true,
   }),
 );
