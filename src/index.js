@@ -4,29 +4,73 @@ const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
 
 // Some fake data
-const books = [
+const movies = [
   {
-    title: "Harry Potter and the Sorcerer's stone",
-    author: 'J.K. Rowling',
+    title: "Avengers: Endgame",
+    plot: "After the devastating events of Avengers: Infinity War, the universe is in ruins due to the efforts of the Mad Titan, Thanos. With the help of remaining allies, the Avengers must assemble once more in order to undo Thanos' actions and restore order to the universe once and for all, no matter what consequences may be in store.",
+    poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
+    genres: [
+      {name: "Action"},
+      {name: "Science Fiction"},
+      {name: "Adventure"}
+    ],
+    productionCountries: [
+      {name: "us"}
+    ],
+    spokenLanguages: [
+      {name: "us"},
+      {name: "ja"}
+    ]
   },
   {
-    title: 'Jurassic Park',
-    author: 'Michael Crichton',
+    title: "John Wick",
+    plot: "An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.",
+    poster: "https://image.tmdb.org/t/p/w500/5vHssUeVe25bMrof1HyaPyWgaP.jpg",
+    genres: [
+      {name: "Action"},
+      {name: "Crime"},
+      {name: "Thriller"}
+    ],
+    productionCountries: [
+      {name: "US"},
+      {name: "CN"}
+    ],
+    spokenLanguages: [
+      {name: "us"},
+      {name: "hu"},
+      {name: "ru"}
+    ]
   },
 ];
 
 // The GraphQL schema in string form
 const typeDefs = `
   type Query { 
-    books: [Book]
-    
+    movies: [Movie]
   }
-  type Book { title: String, author: String }
+  
+  type Movie { 
+    title: String, 
+    plot: String,
+    poster: String
+    genres: [Genre]
+    productionCountries: [Country]
+    spokenLanguages: [Language]
+  }
+  type Genre {
+    name: String
+  }
+  type Country {
+    name: String
+  }
+  type Language {
+    name: String
+  }
 `;
 
 // The resolvers
 const resolvers = {
-  Query: { books: () => books },
+  Query: { movies: () => movies },
 };
 
 // Put together a schema
