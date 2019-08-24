@@ -1,28 +1,50 @@
 const express = require('express');
-const graphqlHTTP = require('express-graphql');
-const { buildSchema } = require('graphql');
+const bodyParser = require('body-parser');
+const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
+const { makeExecutableSchema } = require('graphql-tools');
 
-const app = express();
-
-const schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
-
-const root = {
-  hello: () => {
-    return 'Hello world!';
+// Some fake data
+const books = [
+  {
+    title: "Harry Potter and the Sorcerer's stone",
+    author: 'J.K. Rowling',
   },
+  {
+    title: 'Jurassic Park',
+    author: 'Michael Crichton',
+  },
+];
+
+// The GraphQL schema in string form
+const typeDefs = `
+  type Query { 
+    books: [Book]
+    
+  }
+  type Book { title: String, author: String }
+`;
+
+// The resolvers
+const resolvers = {
+  Query: { books: () => books },
 };
 
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema: schema,
-    rootValue: root,
-    graphiql: true,
-  }),
-);
+// Put together a schema
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
 
-app.listen(4000);
+// Initialize the app
+const app = express();
+
+// The GraphQL endpoint
+app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+
+// GraphiQL, a visual editor for queries
+app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+
+// Start the server
+app.listen(4000, () => {
+  console.log('Go to http://localhost:4000/graphiql to run queries!');
+});
