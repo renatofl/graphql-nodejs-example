@@ -11,9 +11,9 @@ var movies = [
     plot: "After the devastating events of Avengers: Infinity War, the universe is in ruins due to the efforts of the Mad Titan, Thanos. With the help of remaining allies, the Avengers must assemble once more in order to undo Thanos' actions and restore order to the universe once and for all, no matter what consequences may be in store.",
     poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
     genres: [
-      {name: "Action"},
-      {name: "Science Fiction"},
-      {name: "Adventure"}
+      {name: "ACTION"},
+      {name: "SCIENCE_FICTION"},
+      {name: "ADVENTURE"}
     ],
     productionCountries: [
       {name: "us"}
@@ -28,9 +28,9 @@ var movies = [
     plot: "An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.",
     poster: "https://image.tmdb.org/t/p/w500/5vHssUeVe25bMrof1HyaPyWgaP.jpg",
     genres: [
-      {name: "Action"},
-      {name: "Crime"},
-      {name: "Thriller"}
+      {name: "ACTION"},
+      {name: "CRIME"},
+      {name: "THRILLER"}
     ],
     productionCountries: [
       {name: "US"},
@@ -66,7 +66,7 @@ const typeDefs = `
   }
 
   input GenreInput {
-    name: String
+    name: AllowedGenre
   }
 
   input CountryInput {
@@ -95,13 +95,36 @@ const typeDefs = `
     spokenLanguages: [Language]
   }
   type Genre {
-    name: String
+    name: AllowedGenre
   }
   type Country {
     name: String
   }
   type Language {
     name: String
+  }
+
+  enum AllowedGenre {
+    """
+      Action 
+    """
+    ACTION
+    """
+      Adventure 
+    """
+    ADVENTURE
+    """
+      Science Fiction 
+    """
+    SCIENCE_FICTION
+    """
+      Thriller 
+    """
+    THRILLER
+    """
+      Crime 
+    """
+    CRIME
   }
 `;
 
