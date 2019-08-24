@@ -66,7 +66,7 @@ const typeDefs = `
   }
 
   input GenreInput {
-    name: AllowedGenre
+    name: String
   }
 
   input CountryInput {
@@ -95,7 +95,8 @@ const typeDefs = `
     spokenLanguages: [Language]
   }
   type Genre {
-    name: AllowedGenre
+    name: String @deprecated(reason: "Use nameEnum instead.")
+    nameEnum: AllowedGenre
   }
   type Country {
     name: String
@@ -126,6 +127,7 @@ const typeDefs = `
     """
     CRIME
   }
+
 `;
 
 // The resolvers
