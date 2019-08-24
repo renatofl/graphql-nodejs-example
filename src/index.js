@@ -49,9 +49,18 @@ const typeDefs = `
     movies: [Movie]
   }
   
-  type Movie { 
+  type Movie {
+    """
+      Movie title
+    """
     title: String, 
+    """
+      Movie plot
+    """
     plot: String,
+    """
+      Movie poster
+    """
     poster: String
     genres: [Genre]
     productionCountries: [Country]
@@ -70,7 +79,7 @@ const typeDefs = `
 
 // The resolvers
 const resolvers = {
-  Query: { movies: () => movies },
+  Query: { movies: () => movies }
 };
 
 // Put together a schema
