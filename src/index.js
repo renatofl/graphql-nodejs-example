@@ -7,6 +7,7 @@ const { find, filter, concat } = require ('lodash');
 // Some fake data
 var movies = [
   {
+    imdbId: "tt4154796",
     title: "Avengers: Endgame",
     plot: "After the devastating events of Avengers: Infinity War, the universe is in ruins due to the efforts of the Mad Titan, Thanos. With the help of remaining allies, the Avengers must assemble once more in order to undo Thanos' actions and restore order to the universe once and for all, no matter what consequences may be in store.",
     poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
@@ -24,6 +25,7 @@ var movies = [
     ]
   },
   {
+    imdbId: "tt2911666",
     title: "John Wick",
     plot: "An ex-hit-man comes out of retirement to track down the gangsters that killed his dog and took everything from him.",
     poster: "https://image.tmdb.org/t/p/w500/5vHssUeVe25bMrof1HyaPyWgaP.jpg",
@@ -48,6 +50,7 @@ var movies = [
 const typeDefs = `
   type Query { 
     movies: [Movie]
+    movie(imdbId: String!): Movie
   }
 
   type Mutation {
@@ -57,6 +60,7 @@ const typeDefs = `
   }
 
   input MovieInput {
+    imdbId: String!
     title: String!
     plot: String!
     poster: String!
@@ -66,26 +70,30 @@ const typeDefs = `
   }
 
   input GenreInput {
-    name: String
+    name: String!
   }
 
   input CountryInput {
-    name: String
+    name: String!
   }
 
   input LanguageInput {
-    name: String
+    name: String!
   }
   
   type Movie {
     """
+      Imdb ID
+    """
+    imdbId: String
+    """
       Movie title
     """
-    title: String, 
+    title: String
     """
       Movie plot
     """
-    plot: String,
+    plot: String
     """
       Movie poster
     """
@@ -133,7 +141,8 @@ const typeDefs = `
 // The resolvers
 const resolvers = {
   Query: { 
-    movies: () => movies 
+    movies: () => movies,
+    movie: (_, { imdbId }) => find(movies, { imdbId }),
   },
   Mutation: {
     createMovie: (_, {movie}) => {

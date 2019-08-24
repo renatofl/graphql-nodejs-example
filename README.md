@@ -131,4 +131,28 @@ query {
     }
   }
 }
+```
+
+## Ex-7
+
+Query com filtro
+
 ```graphql
+query {
+  movie(imdbId: "tt2911666") {
+    title
+    poster
+    plot
+    spokenLanguages {
+      name
+    }
+    productionCountries {
+      name
+    }
+    genres {
+      name
+      nameEnum
+    }
+  }
+}
+```
