@@ -2,9 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
+const { find, filter, concat } = require ('lodash');
 
 // Some fake data
-const movies = [
+var movies = [
   {
     title: "Avengers: Endgame",
     plot: "After the devastating events of Avengers: Infinity War, the universe is in ruins due to the efforts of the Mad Titan, Thanos. With the help of remaining allies, the Avengers must assemble once more in order to undo Thanos' actions and restore order to the universe once and for all, no matter what consequences may be in store.",
@@ -48,6 +49,33 @@ const typeDefs = `
   type Query { 
     movies: [Movie]
   }
+
+  type Mutation {
+    createMovie(
+      movie: MovieInput
+    ): Movie
+  }
+
+  input MovieInput {
+    title: String!
+    plot: String!
+    poster: String!
+    genres: [GenreInput]!,
+    productionCountries: [CountryInput]!,
+    spokenLanguages: [LanguageInput]!
+  }
+
+  input GenreInput {
+    name: String
+  }
+
+  input CountryInput {
+    name: String
+  }
+
+  input LanguageInput {
+    name: String
+  }
   
   type Movie {
     """
@@ -79,7 +107,15 @@ const typeDefs = `
 
 // The resolvers
 const resolvers = {
-  Query: { movies: () => movies }
+  Query: { 
+    movies: () => movies 
+  },
+  Mutation: {
+    createMovie: (_, {movie}) => {
+      movies = concat(movies, movie);
+      return movie;
+    }
+  }
 };
 
 // Put together a schema
