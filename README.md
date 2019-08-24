@@ -107,5 +107,28 @@ mutation {
     }
   }
 }
-
 ```
+
+## Ex-6
+
+Campo name do Gênero como deprecado
+
+```graphql
+query {
+  movies {
+    title
+    plot
+    poster
+    spokenLanguages {
+      name
+    }
+    productionCountries {
+      name
+    }
+    genres {
+      name
+      nameEnum
+    }
+  }
+}
+```graphql
