@@ -140,6 +140,11 @@ const resolvers = {
       movies = concat(movies, movie);
       return movie;
     }
+  },
+  Genre: {
+    nameEnum: ({name}) => {
+      return name;
+    }
   }
 };
 
