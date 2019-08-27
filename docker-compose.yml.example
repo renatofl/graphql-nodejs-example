@@ -1,11 +1,12 @@
 version: '2'
 services:
-  sls:
+  node-graphql:
     build: .
-    container_name: sls
+    container_name: node-graphql
     command: bash -c "npm install && npm start"
     restart: always
+    ports:
+      - 4000:4000
     working_dir: "/app"
     volumes:
       - ./src:/app
-      - ./.aws:/root/.aws/credentials
